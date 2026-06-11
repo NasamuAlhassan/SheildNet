@@ -2,79 +2,74 @@
 
 export default function ThreatRadar() {
   return (
-    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[650px] pointer-events-none select-none">
-      {/* Concentric rings */}
-      {[120, 200, 280, 360, 440, 520, 600].map((size, i) => (
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] pointer-events-none select-none opacity-60 dark:opacity-100">
+      {/* Rings */}
+      {[110, 190, 270, 350, 430, 510].map((size, i) => (
         <div
           key={size}
-          className="absolute rounded-full border border-cyan-400/[0.07] animate-radar-pulse"
+          className="absolute rounded-full"
           style={{
             width: `${size}px`,
             height: `${size}px`,
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            animationDelay: `${i * 0.3}s`,
+            border: '1px solid color-mix(in srgb, var(--primary) 15%, transparent)',
+            animation: `radar-pulse 3s ease-in-out ${i * 0.3}s infinite`,
           }}
         />
       ))}
 
-      {/* Cross-hair lines */}
-      <div className="absolute top-1/2 left-0 right-0 h-px bg-cyan-400/[0.04] -translate-y-px" />
-      <div className="absolute left-1/2 top-0 bottom-0 w-px bg-cyan-400/[0.04] -translate-x-px" />
+      {/* Crosshairs */}
+      <div className="absolute top-1/2 left-0 right-0 h-px -translate-y-px"
+        style={{ background: 'color-mix(in srgb, var(--primary) 8%, transparent)' }} />
+      <div className="absolute left-1/2 top-0 bottom-0 w-px -translate-x-px"
+        style={{ background: 'color-mix(in srgb, var(--primary) 8%, transparent)' }} />
 
-      {/* Sweep trail (conic gradient) */}
-      <div
-        className="absolute inset-0 rounded-full animate-radar-scan"
-        style={{
-          background:
-            'conic-gradient(from 0deg, transparent 300deg, rgba(34,211,238,0.06) 360deg)',
-        }}
-      />
+      {/* Sweep trail */}
+      <div className="absolute inset-0 rounded-full" style={{
+        animation: 'radar-scan 5s linear infinite',
+        background: 'conic-gradient(from 0deg, transparent 310deg, color-mix(in srgb, var(--primary) 8%, transparent) 360deg)',
+      }} />
 
       {/* Sweep line */}
-      <div className="absolute inset-0 animate-radar-scan" style={{ transformOrigin: '50% 50%' }}>
-        <div
-          className="absolute top-1/2 left-1/2 h-[1px]"
+      <div className="absolute inset-0" style={{ animation: 'radar-scan 5s linear infinite', transformOrigin: '50% 50%' }}>
+        <div className="absolute top-1/2 left-1/2 h-[1px]"
           style={{
             width: '50%',
-            background: 'linear-gradient(to right, rgba(34,211,238,0.7) 0%, transparent 100%)',
-            transformOrigin: 'left center',
-          }}
-        />
+            background: 'linear-gradient(to right, var(--primary) 0%, transparent 100%)',
+            opacity: 0.7,
+          }} />
       </div>
 
-      {/* Center dot */}
+      {/* Center */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
-        <div className="w-2 h-2 bg-cyan-400 rounded-full" />
-        <div className="absolute inset-0 w-2 h-2 bg-cyan-400 rounded-full animate-ping-slow opacity-60" />
+        <div className="w-2.5 h-2.5 rounded-full" style={{ background: 'var(--primary)' }} />
+        <div className="absolute inset-0 w-2.5 h-2.5 rounded-full animate-ping-slow opacity-50"
+          style={{ background: 'var(--primary)' }} />
       </div>
 
-      {/* Blip dots — simulated threats */}
-      <div className="absolute" style={{ top: '32%', left: '63%' }}>
-        <div className="w-1.5 h-1.5 bg-red-400 rounded-full animate-pulse" />
-        <div className="absolute inset-0 w-1.5 h-1.5 bg-red-400/40 rounded-full animate-ping" style={{ animationDuration: '1.5s' }} />
-      </div>
-      <div className="absolute" style={{ top: '66%', left: '38%' }}>
-        <div className="w-1.5 h-1.5 bg-amber-400 rounded-full" />
-      </div>
-      <div className="absolute" style={{ top: '26%', left: '44%' }}>
-        <div className="w-1 h-1 bg-cyan-400 rounded-full" />
-      </div>
-      <div className="absolute" style={{ top: '72%', left: '61%' }}>
-        <div className="w-1 h-1 bg-emerald-400 rounded-full" />
-      </div>
-      <div className="absolute" style={{ top: '45%', left: '21%' }}>
-        <div className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }} />
-      </div>
+      {/* Threat blips */}
+      {[
+        { top: '31%', left: '63%', color: 'var(--danger)', ping: true },
+        { top: '67%', left: '37%', color: 'var(--warning)', ping: false },
+        { top: '25%', left: '44%', color: 'var(--cyber)', ping: false },
+        { top: '72%', left: '62%', color: 'var(--success)', ping: false },
+        { top: '45%', left: '20%', color: 'var(--danger)', ping: true, delay: '0.7s' },
+      ].map((blip, i) => (
+        <div key={i} className="absolute" style={{ top: blip.top, left: blip.left }}>
+          <div className="w-1.5 h-1.5 rounded-full" style={{ background: blip.color }} />
+          {blip.ping && (
+            <div className="absolute inset-0 w-1.5 h-1.5 rounded-full animate-ping opacity-60"
+              style={{ background: blip.color, animationDelay: blip.delay ?? '0s' }} />
+          )}
+        </div>
+      ))}
 
       {/* Outer glow */}
-      <div
-        className="absolute inset-0 rounded-full"
-        style={{
-          background: 'radial-gradient(circle, rgba(34,211,238,0.03) 0%, transparent 70%)',
-        }}
-      />
+      <div className="absolute inset-0 rounded-full" style={{
+        background: 'radial-gradient(circle, color-mix(in srgb, var(--primary) 4%, transparent) 0%, transparent 65%)',
+      }} />
     </div>
   );
 }

@@ -5,21 +5,18 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Shield, Radio, Globe, Zap, Share2, Lock, MessageSquare, BarChart3, LogOut, Menu, X } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
-import { cn } from '@/lib/utils';
 
 const NAV = [
-  { href: '/gov', label: 'War Room', icon: Radio, exact: true, badge: true },
-  { href: '/gov/threats', label: 'Nation-State Threats', icon: Globe },
-  { href: '/gov/infrastructure', label: 'Infrastructure', icon: Zap },
-  { href: '/gov/sharing', label: 'Inter-Agency Sharing', icon: Share2 },
-  { href: '/gov/classified', label: 'Classified Data', icon: Lock },
-  { href: '/gov/sms-broadcast', label: 'Emergency SMS', icon: MessageSquare },
-  { href: '/gov/sla', label: 'SLA Status', icon: BarChart3 },
+  { href: '/gov',                label: 'War Room',            icon: Radio,         exact: true, badge: true },
+  { href: '/gov/threats',        label: 'Nation-State Threats',icon: Globe },
+  { href: '/gov/infrastructure', label: 'Infrastructure',      icon: Zap },
+  { href: '/gov/sharing',        label: 'Inter-Agency Sharing',icon: Share2 },
+  { href: '/gov/classified',     label: 'Classified Data',     icon: Lock },
+  { href: '/gov/sms-broadcast',  label: 'Emergency SMS',       icon: MessageSquare },
+  { href: '/gov/sla',            label: 'SLA Status',          icon: BarChart3 },
 ];
 
-interface Props { userId: string; userName: string; }
-
-export default function GovSidebar({ userId, userName }: Props) {
+export default function GovSidebar({ userId, userName }: { userId: string; userName: string }) {
   const pathname = usePathname();
   const [alertCount, setAlertCount] = useState(0);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -28,92 +25,77 @@ export default function GovSidebar({ userId, userName }: Props) {
 
   useEffect(() => {
     const supabase = createClient();
-    supabase.from('user_alerts').select('*', { count: 'exact', head: true })
-      .eq('user_id', userId).eq('status', 'active')
-      .then(({ count }) => setAlertCount(count ?? 0));
-
-    const ch = supabase.channel(`gb-${userId}`)
-      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'user_alerts', filter: `user_id=eq.${userId}` }, () => setAlertCount(p => p + 1))
-      .subscribe();
+    supabase.from('user_alerts').select('*', { count: 'exact', head: true }).eq('user_id', userId).eq('status', 'active').then(({ count }) => setAlertCount(count ?? 0));
+    const ch = supabase.channel(`gb-${userId}`).on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'user_alerts', filter: `user_id=eq.${userId}` }, () => setAlertCount(p => p + 1)).subscribe();
     return () => { supabase.removeChannel(ch); };
   }, [userId]);
+
+  const warningColor = 'var(--warning)';
 
   const NavLinks = ({ onClick }: { onClick?: () => void }) => (
     <nav className="flex-1 py-4 px-3 space-y-0.5">
       {NAV.map(({ href, label, icon: Icon, badge, exact }) => {
         const active = exact ? pathname === href : pathname === href || pathname.startsWith(href + '/');
         return (
-          <Link key={href} href={href} onClick={onClick} className={cn(
-            'flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all text-sm',
-            active ? 'bg-amber-400/10 text-amber-400 border border-amber-400/10' : 'text-slate-400 hover:text-white hover:bg-[#1e293b]/60'
-          )}>
-            <Icon className="w-4 h-4" />
+          <Link key={href} href={href} onClick={onClick}
+            className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all text-sm font-medium"
+            style={active ? { background: `color-mix(in srgb, ${warningColor} 10%, transparent)`, color: warningColor } : { color: 'var(--text-secondary)' }}>
+            <Icon className="w-4 h-4 flex-shrink-0" />
             {label}
-            {badge && alertCount > 0 && (
-              <span className="ml-auto text-[10px] bg-red-500 text-white rounded-full px-1.5 py-0.5 min-w-[18px] text-center font-bold">{alertCount > 99 ? '99+' : alertCount}</span>
-            )}
+            {badge && alertCount > 0 && <span className="ml-auto text-[10px] rounded-full px-1.5 py-0.5 font-bold" style={{ background: 'var(--danger)', color: '#fff' }}>{alertCount}</span>}
           </Link>
         );
       })}
     </nav>
   );
 
-  const UserFooter = () => (
-    <div className="px-5 py-4 border-t border-[#1e293b]">
+  const Footer = () => (
+    <div className="px-5 py-4" style={{ borderTop: '1px solid var(--border)' }}>
       <div className="flex items-center gap-2.5 mb-3">
-        <div className="w-7 h-7 bg-amber-400/20 rounded-full flex items-center justify-center text-amber-400 font-semibold text-xs">{userName?.[0]?.toUpperCase() ?? 'G'}</div>
-        <div className="min-w-0">
-          <p className="text-white text-xs font-semibold truncate">{userName}</p>
-          <p className="text-slate-500 text-xs">Gov Admin</p>
-        </div>
+        <div className="w-7 h-7 rounded-full flex items-center justify-center font-semibold text-xs" style={{ background: `color-mix(in srgb, ${warningColor} 15%, transparent)`, color: warningColor }}>{userName?.[0]?.toUpperCase() ?? 'G'}</div>
+        <div><p className="text-xs font-semibold" style={{ color: 'var(--text)' }}>{userName}</p><p className="text-xs" style={{ color: 'var(--text-muted)' }}>Gov Admin</p></div>
       </div>
       <form action="/api/auth/signout" method="POST">
-        <button type="submit" className="flex items-center gap-2 text-slate-500 hover:text-red-400 text-xs transition-colors"><LogOut className="w-3.5 h-3.5" /> Sign out</button>
+        <button type="submit" className="flex items-center gap-2 text-xs" style={{ color: 'var(--text-muted)' }}><LogOut className="w-3.5 h-3.5" /> Sign out</button>
       </form>
     </div>
   );
 
   return (
     <>
-      <aside className="hidden lg:flex flex-col w-64 border-r border-[#1e293b] bg-[#0a0f1e] flex-shrink-0">
-        <div className="flex items-center gap-2.5 px-5 py-4 border-b border-[#1e293b]">
-          <div className="w-7 h-7 bg-amber-400/10 rounded-lg flex items-center justify-center border border-amber-400/20"><Shield className="w-3.5 h-3.5 text-amber-400" /></div>
-          <span className="font-grotesk font-bold text-white text-sm">ShieldNet <span className="text-amber-400">Gov</span></span>
+      <aside className="hidden lg:flex flex-col w-64 flex-shrink-0" style={{ background: 'var(--card)', borderRight: '1px solid var(--border)' }}>
+        <div className="flex items-center gap-2.5 px-5 py-4" style={{ borderBottom: '1px solid var(--border)' }}>
+          <div className="w-7 h-7 rounded-lg flex items-center justify-center border" style={{ background: `color-mix(in srgb, ${warningColor} 10%, transparent)`, borderColor: `color-mix(in srgb, ${warningColor} 25%, transparent)` }}><Shield className="w-3.5 h-3.5" style={{ color: warningColor }} /></div>
+          <span className="font-grotesk font-bold text-sm" style={{ color: 'var(--text)' }}>Shield<span style={{ color: warningColor }}>Net Gov</span></span>
         </div>
-        <div className="px-5 py-3 border-b border-[#1e293b]">
-          <span className="text-xs px-2.5 py-1 rounded-full bg-amber-400/10 text-amber-400 border border-amber-400/20">Government</span>
+        <div className="px-5 py-3" style={{ borderBottom: '1px solid var(--border)' }}>
+          <span className="badge text-xs" style={{ background: `color-mix(in srgb, ${warningColor} 10%, transparent)`, color: warningColor, borderColor: `color-mix(in srgb, ${warningColor} 22%, transparent)` }}>Government</span>
         </div>
         <NavLinks />
-        <UserFooter />
+        <Footer />
       </aside>
 
-      <div className="lg:hidden fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-4 h-14 bg-[#0a0f1e]/95 backdrop-blur-md border-b border-[#1e293b]">
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-4 h-14 backdrop-blur-md" style={{ background: 'color-mix(in srgb, var(--card) 95%, transparent)', borderBottom: '1px solid var(--border)' }}>
+        <span className="font-grotesk font-bold text-sm" style={{ color: 'var(--text)' }}>Shield<span style={{ color: warningColor }}>Net Gov</span></span>
         <div className="flex items-center gap-2">
-          <div className="w-6 h-6 bg-amber-400/10 rounded-lg flex items-center justify-center border border-amber-400/20"><Shield className="w-3 h-3 text-amber-400" /></div>
-          <span className="font-grotesk font-bold text-white text-sm">ShieldNet <span className="text-amber-400">Gov</span></span>
-        </div>
-        <div className="flex items-center gap-2">
-          {alertCount > 0 && <span className="text-[10px] bg-red-500 text-white rounded-full px-1.5 py-0.5 font-bold">{alertCount}</span>}
-          <button onClick={() => setMobileOpen(true)} className="text-slate-400 hover:text-white p-1"><Menu className="w-5 h-5" /></button>
+          {alertCount > 0 && <span className="text-[10px] rounded-full px-1.5 py-0.5 font-bold" style={{ background: 'var(--danger)', color: '#fff' }}>{alertCount}</span>}
+          <button onClick={() => setMobileOpen(true)} style={{ color: 'var(--text-secondary)' }}><Menu className="w-5 h-5" /></button>
         </div>
       </div>
 
       {mobileOpen && (
         <div className="lg:hidden fixed inset-0 z-50">
-          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={() => setMobileOpen(false)} />
-          <aside className="absolute left-0 top-0 bottom-0 w-72 flex flex-col bg-[#0a0f1e] border-r border-[#1e293b] overflow-y-auto">
-            <div className="flex items-center justify-between px-5 py-4 border-b border-[#1e293b]">
-              <div className="flex items-center gap-2.5">
-                <div className="w-7 h-7 bg-amber-400/10 rounded-lg flex items-center justify-center border border-amber-400/20"><Shield className="w-3.5 h-3.5 text-amber-400" /></div>
-                <span className="font-grotesk font-bold text-white text-sm">ShieldNet <span className="text-amber-400">Gov</span></span>
-              </div>
-              <button onClick={() => setMobileOpen(false)} className="text-slate-400 hover:text-white"><X className="w-4 h-4" /></button>
+          <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.5)' }} onClick={() => setMobileOpen(false)} />
+          <aside className="absolute left-0 top-0 bottom-0 w-72 flex flex-col overflow-y-auto" style={{ background: 'var(--card)', borderRight: '1px solid var(--border)' }}>
+            <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: '1px solid var(--border)' }}>
+              <span className="font-grotesk font-bold text-sm" style={{ color: 'var(--text)' }}>Shield<span style={{ color: warningColor }}>Net Gov</span></span>
+              <button onClick={() => setMobileOpen(false)} style={{ color: 'var(--text-secondary)' }}><X className="w-4 h-4" /></button>
             </div>
-            <div className="px-5 py-3 border-b border-[#1e293b]">
-              <span className="text-xs px-2.5 py-1 rounded-full bg-amber-400/10 text-amber-400 border border-amber-400/20">Government</span>
+            <div className="px-5 py-3" style={{ borderBottom: '1px solid var(--border)' }}>
+              <span className="badge text-xs" style={{ background: `color-mix(in srgb, ${warningColor} 10%, transparent)`, color: warningColor, borderColor: `color-mix(in srgb, ${warningColor} 22%, transparent)` }}>Government</span>
             </div>
             <NavLinks onClick={() => setMobileOpen(false)} />
-            <UserFooter />
+            <Footer />
           </aside>
         </div>
       )}
