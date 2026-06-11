@@ -1,4 +1,4 @@
-import { Zap, Droplets, Building2, CheckCircle, AlertTriangle, Activity } from 'lucide-react';
+﻿import { Zap, Droplets, Building2, CheckCircle, AlertTriangle, Activity } from 'lucide-react';
 
 const PANELS = [
   {
@@ -46,10 +46,10 @@ export default function InfrastructurePage() {
   return (
     <div className="p-6 space-y-6">
       <div>
-        <h1 className="font-grotesk text-2xl font-bold text-white flex items-center gap-2">
+        <h1 className="font-grotesk text-2xl font-bold text-foreground flex items-center gap-2">
           <Zap className="w-6 h-6 text-amber-400" /> Critical Infrastructure Monitoring
         </h1>
-        <p className="text-slate-400 text-sm mt-1">Power Grid, Water Systems, Financial Systems</p>
+        <p className="text-foreground-muted text-sm mt-1">Power Grid, Water Systems, Financial Systems</p>
       </div>
 
       <div className="grid md:grid-cols-3 gap-5">
@@ -67,8 +67,8 @@ export default function InfrastructurePage() {
                     <Icon className={`w-5 h-5 ${isNormal ? 'text-emerald-400' : 'text-amber-400'}`} />
                   </div>
                   <div>
-                    <p className="text-white text-sm font-semibold">{panel.name}</p>
-                    <p className="text-slate-500 text-xs">{panel.lastCheck}</p>
+                    <p className="text-foreground text-sm font-semibold">{panel.name}</p>
+                    <p className="text-foreground-muted text-xs">{panel.lastCheck}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-1.5">
@@ -84,7 +84,7 @@ export default function InfrastructurePage() {
               <MiniChart data={panel.telemetry} color={chartColor} />
 
               <div className="flex items-center justify-between mt-2 text-xs">
-                <span className="text-slate-500 flex items-center gap-1"><Activity className="w-3 h-3" /> Telemetry</span>
+                <span className="text-foreground-muted flex items-center gap-1"><Activity className="w-3 h-3" /> Telemetry</span>
                 {panel.alerts > 0 ? (
                   <span className="badge-warning px-2 py-0.5 rounded-full">{panel.alerts} alert</span>
                 ) : (

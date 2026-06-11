@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { X, Zap, Loader2, CheckCircle, AlertCircle } from 'lucide-react';
@@ -52,13 +52,13 @@ export default function TriggerAlertModal({ alert, users, onClose }: Props) {
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-[#0d1426] border border-[#1e293b] rounded-2xl w-full max-w-md shadow-2xl">
+      <div className="bg-background border border-border rounded-2xl w-full max-w-md shadow-2xl">
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-[#1e293b]">
-          <h2 className="font-grotesk font-bold text-white text-sm flex items-center gap-2">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-border">
+          <h2 className="font-grotesk font-bold text-foreground text-sm flex items-center gap-2">
             <Zap className="w-4 h-4 text-amber-400" /> Trigger Alert
           </h2>
-          <button onClick={onClose} className="text-slate-500 hover:text-white transition-colors">
+          <button onClick={onClose} className="text-foreground-muted hover:text-foreground transition-colors">
             <X className="w-4 h-4" />
           </button>
         </div>
@@ -75,9 +75,9 @@ export default function TriggerAlertModal({ alert, users, onClose }: Props) {
                 alert.severity === 'critical' ? 'badge-critical' :
                 alert.severity === 'warning' ? 'badge-warning' : 'badge-info'
               }`}>{alert.severity}</span>
-              <span className="text-slate-500 text-xs capitalize">{alert.type?.replace('_', ' ')}</span>
+              <span className="text-foreground-muted text-xs capitalize">{alert.type?.replace('_', ' ')}</span>
             </div>
-            <p className="text-slate-200 text-sm">{alert.title}</p>
+            <p className="text-foreground-secondary text-sm">{alert.title}</p>
           </div>
 
           {alert.severity === 'critical' && (
@@ -88,7 +88,7 @@ export default function TriggerAlertModal({ alert, users, onClose }: Props) {
 
           {/* User selector */}
           <div>
-            <label className="block text-slate-400 text-xs mb-1.5">Target User</label>
+            <label className="block text-foreground-muted text-xs mb-1.5">Target User</label>
             <select
               value={selectedUserId}
               onChange={e => setSelectedUserId(e.target.value)}
@@ -107,7 +107,7 @@ export default function TriggerAlertModal({ alert, users, onClose }: Props) {
                 <CheckCircle className="w-4 h-4" /> Alert triggered successfully
               </div>
               {result.smsSent && (
-                <p className="text-slate-400 text-xs">SMS dispatched via Moolre{result.smsRef ? ` — Ref: ${result.smsRef}` : ''}</p>
+                <p className="text-foreground-muted text-xs">SMS dispatched via Moolre{result.smsRef ? ` — Ref: ${result.smsRef}` : ''}</p>
               )}
             </div>
           )}
@@ -120,8 +120,8 @@ export default function TriggerAlertModal({ alert, users, onClose }: Props) {
         </div>
 
         {/* Footer */}
-        <div className="px-5 py-4 border-t border-[#1e293b] flex gap-3">
-          <button onClick={onClose} className="flex-1 border border-[#1e293b] hover:border-[#334155] text-slate-400 py-2.5 rounded-xl text-sm transition-colors">
+        <div className="px-5 py-4 border-t border-border flex gap-3">
+          <button onClick={onClose} className="flex-1 border border-border hover:border-border-strong text-foreground-muted py-2.5 rounded-xl text-sm transition-colors">
             {result ? 'Close' : 'Cancel'}
           </button>
           {!result && (

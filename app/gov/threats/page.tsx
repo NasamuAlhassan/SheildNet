@@ -1,4 +1,4 @@
-import { Globe, AlertTriangle } from 'lucide-react';
+﻿import { Globe, AlertTriangle } from 'lucide-react';
 
 const APT_FEED = [
   {
@@ -47,10 +47,10 @@ export default function NationStatePage() {
   return (
     <div className="p-6 space-y-6">
       <div>
-        <h1 className="font-grotesk text-2xl font-bold text-white flex items-center gap-2">
+        <h1 className="font-grotesk text-2xl font-bold text-foreground flex items-center gap-2">
           <Globe className="w-6 h-6 text-amber-400" /> Nation-State Threat Feed
         </h1>
-        <p className="text-slate-400 text-sm mt-1">Advanced Persistent Threat intelligence — TLP:WHITE</p>
+        <p className="text-foreground-muted text-sm mt-1">Advanced Persistent Threat intelligence — TLP:WHITE</p>
       </div>
 
       <div className="space-y-4">
@@ -60,8 +60,8 @@ export default function NationStatePage() {
           }`}>
             <div className="flex items-start justify-between mb-3">
               <div>
-                <h2 className="font-grotesk font-bold text-white">{apt.actor}</h2>
-                <p className="text-slate-500 text-xs mt-0.5">Origin: {apt.origin}</p>
+                <h2 className="font-grotesk font-bold text-foreground">{apt.actor}</h2>
+                <p className="text-foreground-muted text-xs mt-0.5">Origin: {apt.origin}</p>
               </div>
               <div className="flex items-center gap-2">
                 <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
@@ -76,20 +76,20 @@ export default function NationStatePage() {
 
             <div className="grid sm:grid-cols-2 gap-3 text-xs">
               <div>
-                <p className="text-slate-500 mb-1">Tactics / Techniques</p>
-                <p className="text-slate-300">{apt.tactics}</p>
+                <p className="text-foreground-muted mb-1">Tactics / Techniques</p>
+                <p className="text-foreground-secondary">{apt.tactics}</p>
               </div>
               <div>
-                <p className="text-slate-500 mb-1">Targeted Sectors</p>
-                <p className="text-slate-300">{apt.sectors}</p>
+                <p className="text-foreground-muted mb-1">Targeted Sectors</p>
+                <p className="text-foreground-secondary">{apt.sectors}</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-4 mt-3 pt-3 border-t border-[#1e293b] text-xs">
+            <div className="flex items-center gap-4 mt-3 pt-3 border-t border-border text-xs">
               {apt.cve && (
                 <span className="font-mono text-cyan-400 bg-cyan-400/5 border border-cyan-400/15 px-2 py-0.5 rounded">{apt.cve}</span>
               )}
-              <span className="flex items-center gap-1 text-slate-500">
+              <span className="flex items-center gap-1 text-foreground-muted">
                 <AlertTriangle className="w-3 h-3" /> Updated {new Date(apt.updated).toLocaleDateString()}
               </span>
             </div>

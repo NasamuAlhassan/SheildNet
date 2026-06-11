@@ -4,11 +4,11 @@ import ThemeToggle from '@/components/ui/ThemeToggle';
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-4 py-12 relative dot-grid"
+    <div className="min-h-screen flex flex-col items-center justify-center px-4 py-12 relative"
       style={{ background: 'var(--bg)' }}>
-      {/* Radial fade over dot grid */}
+      {/* Subtle glow */}
       <div className="absolute inset-0 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse 70% 60% at 50% 30%, var(--bg) 30%, transparent 80%)' }} />
+        style={{ background: 'radial-gradient(ellipse 60% 40% at 50% 20%, color-mix(in srgb, var(--primary) 5%, transparent) 0%, transparent 70%)' }} />
 
       {/* Theme toggle top-right */}
       <div className="fixed top-4 right-4 z-10">

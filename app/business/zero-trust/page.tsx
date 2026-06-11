@@ -1,4 +1,4 @@
-import { Lock, CheckCircle, XCircle } from 'lucide-react';
+﻿import { Lock, CheckCircle, XCircle } from 'lucide-react';
 import { formatDateTime } from '@/lib/utils';
 
 const MOCK_LOG = [
@@ -13,10 +13,10 @@ export default function ZeroTrustPage() {
   return (
     <div className="p-6 space-y-6">
       <div>
-        <h1 className="font-grotesk text-2xl font-bold text-white flex items-center gap-2">
+        <h1 className="font-grotesk text-2xl font-bold text-foreground flex items-center gap-2">
           <Lock className="w-6 h-6 text-emerald-400" /> Zero Trust Access Log
         </h1>
-        <p className="text-slate-400 text-sm mt-1">Every access attempt — verified before granted</p>
+        <p className="text-foreground-muted text-sm mt-1">Every access attempt — verified before granted</p>
       </div>
 
       <div className="grid grid-cols-3 gap-4">
@@ -27,32 +27,32 @@ export default function ZeroTrustPage() {
         ].map(({ label, value, color }) => (
           <div key={label} className="card-glow rounded-xl p-4 text-center">
             <p className={`font-grotesk text-3xl font-bold ${color}`}>{value}</p>
-            <p className="text-slate-500 text-xs mt-1">{label}</p>
+            <p className="text-foreground-muted text-xs mt-1">{label}</p>
           </div>
         ))}
       </div>
 
       <div className="card-glow rounded-xl overflow-hidden">
-        <div className="px-5 py-3 border-b border-[#1e293b]">
-          <h2 className="font-grotesk font-semibold text-white text-sm">Access Log</h2>
+        <div className="px-5 py-3 border-b border-border">
+          <h2 className="font-grotesk font-semibold text-foreground text-sm">Access Log</h2>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-xs">
             <thead>
-              <tr className="border-b border-[#1e293b]">
+              <tr className="border-b border-border">
                 {['Time', 'User', 'Resource', 'Device', 'Location', 'Decision'].map(h => (
-                  <th key={h} className="text-left text-slate-500 font-normal px-4 py-2.5">{h}</th>
+                  <th key={h} className="text-left text-foreground-muted font-normal px-4 py-2.5">{h}</th>
                 ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#1e293b]">
+            <tbody className="divide-y divide-border">
               {MOCK_LOG.map((entry, i) => (
-                <tr key={i} className="hover:bg-[#0d1426]/40">
-                  <td className="px-4 py-3 text-slate-400 whitespace-nowrap">{formatDateTime(entry.ts)}</td>
-                  <td className="px-4 py-3 text-slate-200">{entry.user}</td>
-                  <td className="px-4 py-3 font-mono text-slate-300">{entry.resource}</td>
-                  <td className="px-4 py-3 text-slate-400">{entry.device}</td>
-                  <td className="px-4 py-3 text-slate-400">{entry.location}</td>
+                <tr key={i} className="hover:bg-background/40">
+                  <td className="px-4 py-3 text-foreground-muted whitespace-nowrap">{formatDateTime(entry.ts)}</td>
+                  <td className="px-4 py-3 text-foreground-secondary">{entry.user}</td>
+                  <td className="px-4 py-3 font-mono text-foreground-secondary">{entry.resource}</td>
+                  <td className="px-4 py-3 text-foreground-muted">{entry.device}</td>
+                  <td className="px-4 py-3 text-foreground-muted">{entry.location}</td>
                   <td className="px-4 py-3">
                     {entry.allowed
                       ? <span className="flex items-center gap-1 text-emerald-400"><CheckCircle className="w-3 h-3" /> Allowed</span>

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { Bell, Zap, Radio } from 'lucide-react';
@@ -35,10 +35,10 @@ export default function AdminAlertsClient({ alerts, users }: { alerts: Alert[]; 
   return (
     <div className="p-6 space-y-6">
       <div>
-        <h1 className="font-grotesk text-2xl font-bold text-white flex items-center gap-2">
+        <h1 className="font-grotesk text-2xl font-bold text-foreground flex items-center gap-2">
           <Bell className="w-6 h-6 text-purple-400" /> Alert Management
         </h1>
-        <p className="text-slate-400 text-sm mt-1">Trigger alerts to users or broadcast to entire tiers</p>
+        <p className="text-foreground-muted text-sm mt-1">Trigger alerts to users or broadcast to entire tiers</p>
       </div>
 
       {broadcastResult && (
@@ -53,24 +53,24 @@ export default function AdminAlertsClient({ alerts, users }: { alerts: Alert[]; 
             <p className={`font-grotesk text-2xl font-bold ${sev === 'critical' ? 'text-red-400' : sev === 'warning' ? 'text-amber-400' : 'text-blue-400'}`}>
               {alerts.filter(a => a.severity === sev).length}
             </p>
-            <p className="text-slate-500 text-xs mt-1 capitalize">{sev} scenarios</p>
+            <p className="text-foreground-muted text-xs mt-1 capitalize">{sev} scenarios</p>
           </div>
         ))}
       </div>
 
       <div className="card-glow rounded-xl overflow-hidden">
-        <div className="px-5 py-3 border-b border-[#1e293b]">
-          <h2 className="font-grotesk font-semibold text-white text-sm">Threat Scenarios ({alerts.length})</h2>
+        <div className="px-5 py-3 border-b border-border">
+          <h2 className="font-grotesk font-semibold text-foreground text-sm">Threat Scenarios ({alerts.length})</h2>
         </div>
-        <div className="divide-y divide-[#1e293b]">
+        <div className="divide-y divide-border">
           {alerts.map(a => (
             <div key={a.id} className="px-4 py-3 flex items-start gap-3">
               <span className={`text-xs px-2 py-0.5 rounded-full border font-medium flex-shrink-0 mt-0.5 ${
                 a.severity === 'critical' ? 'badge-critical' : a.severity === 'warning' ? 'badge-warning' : 'badge-info'
               }`}>{a.severity}</span>
               <div className="flex-1 min-w-0">
-                <p className="text-slate-200 text-sm">{a.title}</p>
-                <p className="text-slate-500 text-xs capitalize mt-0.5">{a.type?.replace('_', ' ')}</p>
+                <p className="text-foreground-secondary text-sm">{a.title}</p>
+                <p className="text-foreground-muted text-xs capitalize mt-0.5">{a.type?.replace('_', ' ')}</p>
               </div>
               <div className="flex gap-2 flex-shrink-0">
                 <button

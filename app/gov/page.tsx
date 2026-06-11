@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server';
+﻿import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import { Radio, Activity, Shield } from 'lucide-react';
 import DeclareIncidentButton from '@/components/dashboard/DeclareIncidentButton';
@@ -23,11 +23,11 @@ export default async function GovWarRoomPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-grotesk text-2xl font-bold text-white flex items-center gap-2">
+          <h1 className="font-grotesk text-2xl font-bold text-foreground flex items-center gap-2">
             <Radio className="w-6 h-6 text-amber-400 animate-pulse" />
             Incident War Room
           </h1>
-          <p className="text-slate-400 text-sm mt-1">Nation-state threat defense command center</p>
+          <p className="text-foreground-muted text-sm mt-1">Nation-state threat defense command center</p>
         </div>
         <DeclareIncidentButton />
       </div>
@@ -41,7 +41,7 @@ export default async function GovWarRoomPage() {
           { label: 'Intel Feed', value: 'LIVE', color: 'text-cyan-400' },
         ].map(({ label, value, color }) => (
           <div key={label} className="card-glow rounded-xl p-4">
-            <p className="text-slate-500 text-xs mb-2">{label}</p>
+            <p className="text-foreground-muted text-xs mb-2">{label}</p>
             <p className={`font-grotesk font-bold text-lg ${color}`}>{value}</p>
           </div>
         ))}
@@ -50,19 +50,19 @@ export default async function GovWarRoomPage() {
       <div className="grid lg:grid-cols-2 gap-6">
         {/* Live threat feed */}
         <div className="card-glow rounded-xl overflow-hidden">
-          <div className="px-5 py-3.5 border-b border-[#1e293b] flex items-center gap-2">
+          <div className="px-5 py-3.5 border-b border-border flex items-center gap-2">
             <span className="w-2 h-2 bg-amber-400 rounded-full animate-pulse" />
-            <h2 className="font-grotesk font-semibold text-white text-sm">Live Threat Feed</h2>
+            <h2 className="font-grotesk font-semibold text-foreground text-sm">Live Threat Feed</h2>
           </div>
           <LiveAlertFeed userId={user.id} initialAlerts={recentAlerts ?? []} />
         </div>
 
         {/* APT intelligence */}
         <div className="card-glow rounded-xl overflow-hidden">
-          <div className="px-5 py-3.5 border-b border-[#1e293b]">
-            <h2 className="font-grotesk font-semibold text-white text-sm">APT Activity</h2>
+          <div className="px-5 py-3.5 border-b border-border">
+            <h2 className="font-grotesk font-semibold text-foreground text-sm">APT Activity</h2>
           </div>
-          <div className="divide-y divide-[#1e293b]">
+          <div className="divide-y divide-border">
             {[
               { actor: 'APT29 (Cozy Bear)', level: 'CRITICAL', sector: 'Government', time: '14 min ago' },
               { actor: 'Lazarus Group', level: 'HIGH', sector: 'Finance', time: '1h ago' },
@@ -72,13 +72,13 @@ export default async function GovWarRoomPage() {
                 <div className="flex items-center gap-3">
                   <Activity className="w-4 h-4 text-amber-400" />
                   <div>
-                    <p className="text-slate-200 text-sm">{t.actor}</p>
-                    <p className="text-slate-500 text-xs">{t.sector}</p>
+                    <p className="text-foreground-secondary text-sm">{t.actor}</p>
+                    <p className="text-foreground-muted text-xs">{t.sector}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <span className={`text-xs px-2 py-0.5 rounded-full ${t.level === 'CRITICAL' ? 'badge-critical' : 'badge-warning'}`}>{t.level}</span>
-                  <span className="text-slate-600 text-xs">{t.time}</span>
+                  <span className="text-foreground-muted text-xs">{t.time}</span>
                 </div>
               </div>
             ))}
@@ -95,7 +95,7 @@ export default async function GovWarRoomPage() {
         ].map(({ name, status, color }) => (
           <div key={name} className="card-glow rounded-xl p-4 text-center">
             <Shield className={`w-6 h-6 mx-auto mb-2 ${color}`} />
-            <p className="text-white text-sm font-semibold">{name}</p>
+            <p className="text-foreground text-sm font-semibold">{name}</p>
             <p className={`text-xs mt-1 ${color}`}>{status}</p>
           </div>
         ))}

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
@@ -75,15 +75,15 @@ export default function LiveAlertFeed({ userId, initialAlerts, showDescription =
   if (alerts.length === 0) {
     return (
       <div className="text-center py-12">
-        <Shield className="w-10 h-10 mx-auto mb-3 text-slate-700" />
-        <p className="text-slate-500 text-sm">No alerts — you&apos;re clean</p>
-        <p className="text-slate-600 text-xs mt-1">New alerts appear here in real-time</p>
+        <Shield className="w-10 h-10 mx-auto mb-3 text-foreground-muted" />
+        <p className="text-foreground-muted text-sm">No alerts — you&apos;re clean</p>
+        <p className="text-foreground-muted text-xs mt-1">New alerts appear here in real-time</p>
       </div>
     );
   }
 
   return (
-    <div className="divide-y divide-[#1e293b]">
+    <div className="divide-y divide-border">
       {alerts.map((ua) => (
         <div
           key={ua.id}
@@ -101,12 +101,12 @@ export default function LiveAlertFeed({ userId, initialAlerts, showDescription =
 
           {/* Content */}
           <div className="flex-1 min-w-0">
-            <p className="text-slate-100 text-sm font-medium leading-snug">{ua.alert?.title}</p>
+            <p className="text-foreground text-sm font-medium leading-snug">{ua.alert?.title}</p>
             {showDescription && (
-              <p className="text-slate-500 text-xs mt-1 line-clamp-2">{ua.alert?.description}</p>
+              <p className="text-foreground-muted text-xs mt-1 line-clamp-2">{ua.alert?.description}</p>
             )}
-            <div className="flex items-center gap-2 mt-1 text-xs text-slate-500">
-              <span className="capitalize bg-[#1e293b] px-1.5 py-0.5 rounded">
+            <div className="flex items-center gap-2 mt-1 text-xs text-foreground-muted">
+              <span className="capitalize bg-background-alt px-1.5 py-0.5 rounded">
                 {ua.alert?.type?.replace('_', ' ')}
               </span>
               {ua.sms_sent && <span className="text-emerald-400">SMS sent</span>}
@@ -127,14 +127,14 @@ export default function LiveAlertFeed({ userId, initialAlerts, showDescription =
               <button
                 onClick={() => updateStatus(ua.id, 'dismissed')}
                 title="Dismiss"
-                className="text-xs text-slate-500 border border-[#1e293b] hover:border-[#334155] hover:text-slate-300 px-2 py-1 rounded-lg transition-all"
+                className="text-xs text-foreground-muted border border-border hover:border-border-strong hover:text-foreground-secondary px-2 py-1 rounded-lg transition-all"
               >
                 <X className="w-3 h-3" />
               </button>
             </div>
           ) : (
             <span className={`text-xs flex-shrink-0 px-2 py-0.5 rounded-full ${
-              ua.status === 'resolved' ? 'bg-emerald-400/10 text-emerald-400' : 'bg-slate-700 text-slate-400'
+              ua.status === 'resolved' ? 'bg-emerald-400/10 text-emerald-400' : 'bg-slate-700 text-foreground-muted'
             }`}>
               {ua.status}
             </span>

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { Monitor, Smartphone, Laptop, Plus, CheckCircle, AlertCircle } from 'lucide-react';
@@ -20,10 +20,10 @@ export default function DevicesPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-grotesk text-2xl font-bold text-white flex items-center gap-2">
+          <h1 className="font-grotesk text-2xl font-bold text-foreground flex items-center gap-2">
             <Monitor className="w-6 h-6 text-blue-400" /> My Devices
           </h1>
-          <p className="text-slate-400 text-sm mt-1">{devices.length} / 5 devices protected</p>
+          <p className="text-foreground-muted text-sm mt-1">{devices.length} / 5 devices protected</p>
         </div>
         <button className="flex items-center gap-2 bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/30 text-cyan-400 px-4 py-2 rounded-xl text-sm font-semibold transition-all">
           <Plus className="w-4 h-4" /> Add Device
@@ -38,17 +38,17 @@ export default function DevicesPage() {
                 <DeviceIcon os={d.os} />
               </div>
               <div>
-                <p className="text-white text-sm font-semibold">{d.name}</p>
-                <p className="text-slate-500 text-xs">{d.os}</p>
+                <p className="text-foreground text-sm font-semibold">{d.name}</p>
+                <p className="text-foreground-muted text-xs">{d.os}</p>
               </div>
             </div>
             <div className="space-y-2 text-xs">
               <div className="flex justify-between">
-                <span className="text-slate-500">Last seen</span>
-                <span className="text-slate-300">{d.lastSeen}</span>
+                <span className="text-foreground-muted">Last seen</span>
+                <span className="text-foreground-secondary">{d.lastSeen}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-500">Status</span>
+                <span className="text-foreground-muted">Status</span>
                 <span className="flex items-center gap-1 text-emerald-400">
                   <CheckCircle className="w-3 h-3" /> {d.status}
                 </span>
@@ -60,8 +60,8 @@ export default function DevicesPage() {
         {/* Empty slots */}
         {Array.from({ length: 5 - devices.length }).map((_, i) => (
           <div key={`empty-${i}`} className="card-glow rounded-xl p-5 border-dashed flex flex-col items-center justify-center gap-2 min-h-[130px] opacity-40">
-            <AlertCircle className="w-5 h-5 text-slate-500" />
-            <p className="text-slate-500 text-xs">Device slot available</p>
+            <AlertCircle className="w-5 h-5 text-foreground-muted" />
+            <p className="text-foreground-muted text-xs">Device slot available</p>
           </div>
         ))}
       </div>

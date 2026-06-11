@@ -45,9 +45,9 @@ export default function SecurityScoreGauge({ score, size = 160 }: Props) {
         <path
           d={`M ${cx - radius} ${cy} A ${radius} ${radius} 0 0 1 ${cx + radius} ${cy}`}
           fill="none"
-          stroke="#1e293b"
           strokeWidth="10"
           strokeLinecap="round"
+          style={{ stroke: 'var(--border-strong)' }}
         />
         {/* Score arc */}
         <path
@@ -68,15 +68,15 @@ export default function SecurityScoreGauge({ score, size = 160 }: Props) {
           x={cx}
           y={cy - 4}
           textAnchor="middle"
-          fill="white"
           fontSize={size * 0.18}
           fontWeight="bold"
           fontFamily="var(--font-space-grotesk), sans-serif"
+          style={{ fill: 'var(--text)' }}
         >
           {displayed}
         </text>
         {/* /100 */}
-        <text x={cx} y={cy + 12} textAnchor="middle" fill="#64748b" fontSize={size * 0.08}>
+        <text x={cx} y={cy + 12} textAnchor="middle" fontSize={size * 0.08} style={{ fill: 'var(--text-muted)' }}>
           / 100
         </text>
       </svg>

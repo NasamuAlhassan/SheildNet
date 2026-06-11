@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server';
+﻿import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import GovSidebar from '@/components/dashboard/GovSidebar';
 
@@ -16,7 +16,7 @@ export default async function GovLayout({ children }: { children: React.ReactNod
   if (profile?.role !== 'gov_admin') redirect('/dashboard');
 
   return (
-    <div className="flex h-screen bg-[#060910]">
+    <div className="flex h-screen bg-background">
       <GovSidebar userId={user.id} userName={profile?.name ?? ''} />
       <main className="flex-1 overflow-y-auto pt-14 lg:pt-0">{children}</main>
     </div>

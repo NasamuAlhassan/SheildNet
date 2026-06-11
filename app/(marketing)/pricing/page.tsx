@@ -4,13 +4,32 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Check, ArrowRight, Shield, Zap, Building2, Landmark, HelpCircle } from 'lucide-react';
 
-const plans = [
+type CtaType = 'primary' | 'secondary' | 'cyber' | 'warning';
+
+type Plan = {
+  id: string;
+  name: string;
+  icon: typeof Shield;
+  monthly: number | null;
+  annual: number | null;
+  devices: string;
+  features: string[];
+  sla: { uptime: string; response: string; support: string };
+  cta: string;
+  href: string;
+  colorVar: string;
+  highlight?: boolean;
+  free?: boolean;
+  govTier?: boolean;
+  ctaType: CtaType;
+};
+
+const plans: Plan[] = [
   {
     id: 'personal_free',
     name: 'Personal Free',
     icon: Shield,
-    monthly: 0,
-    annual: 0,
+    monthly: 0, annual: 0,
     devices: '1 device',
     features: [
       'Basic phishing link detection',
@@ -19,19 +38,14 @@ const plans = [
       'Community forum support',
     ],
     sla: { uptime: '99.5%', response: 'Best effort', support: 'Community forum' },
-    cta: 'Get Started Free',
-    href: '/signup',
-    color: 'text-slate-400',
-    border: '',
-    ctaStyle: 'border border-[#1e293b] hover:border-cyan-400/30 text-slate-300 hover:text-white',
-    free: true,
+    cta: 'Get Started Free', href: '/signup',
+    colorVar: '--text-muted', ctaType: 'secondary', free: true,
   },
   {
     id: 'personal_pro',
     name: 'Personal Pro',
     icon: Shield,
-    monthly: 9.99,
-    annual: 7.99,
+    monthly: 9.99, annual: 7.99,
     devices: 'Up to 5 devices',
     features: [
       'Full identity theft monitoring & alerts',
@@ -42,19 +56,14 @@ const plans = [
       'In-app security score & recommendations',
     ],
     sla: { uptime: '99.9%', response: '< 4 hours', support: 'Priority email (48h)' },
-    cta: 'Start Free Trial',
-    href: '/signup?plan=personal_pro',
-    color: 'text-cyan-400',
-    border: '',
-    ctaStyle: 'border border-cyan-400/30 hover:border-cyan-400/60 text-cyan-400 hover:text-white',
-    free: false,
+    cta: 'Start Free Trial', href: '/signup?plan=personal_pro',
+    colorVar: '--cyber', ctaType: 'cyber',
   },
   {
     id: 'business_starter',
     name: 'Business Starter',
     icon: Building2,
-    monthly: 49,
-    annual: 39.2,
+    monthly: 49, annual: 39.2,
     devices: 'Up to 10 users',
     features: [
       'Endpoint detection & response (EDR)',
@@ -65,19 +74,14 @@ const plans = [
       'Email & chat support',
     ],
     sla: { uptime: '99.9%', response: '< 2 hours', support: 'Email + Chat' },
-    cta: 'Start Free Trial',
-    href: '/signup?plan=business_starter',
-    color: 'text-blue-400',
-    border: '',
-    ctaStyle: 'border border-blue-400/30 hover:border-blue-400/60 text-blue-400 hover:text-white',
-    free: false,
+    cta: 'Start Free Trial', href: '/signup?plan=business_starter',
+    colorVar: '--primary', ctaType: 'secondary',
   },
   {
     id: 'business_pro',
     name: 'Business Pro',
     icon: Zap,
-    monthly: 199,
-    annual: 159.2,
+    monthly: 199, annual: 159.2,
     devices: 'Up to 50 users',
     highlight: true,
     features: [
@@ -90,19 +94,14 @@ const plans = [
       '24/7 email & chat support',
     ],
     sla: { uptime: '99.95%', response: '< 1 hour', support: '24/7 Email & Chat' },
-    cta: 'Start Free Trial',
-    href: '/signup?plan=business_pro',
-    color: 'text-blue-400',
-    border: 'border-blue-500/40',
-    ctaStyle: 'bg-blue-600 hover:bg-blue-500 text-white',
-    free: false,
+    cta: 'Start Free Trial', href: '/signup?plan=business_pro',
+    colorVar: '--primary', ctaType: 'primary',
   },
   {
     id: 'business_enterprise',
     name: 'Business Enterprise',
     icon: Building2,
-    monthly: 499,
-    annual: 399.2,
+    monthly: 499, annual: 399.2,
     devices: 'Unlimited users',
     features: [
       'Everything in Business Pro',
@@ -113,19 +112,14 @@ const plans = [
       '24/7 dedicated support',
     ],
     sla: { uptime: '99.99%', response: '< 15 minutes', support: '24/7 Dedicated analyst' },
-    cta: 'Contact Sales',
-    href: 'mailto:sales@shieldnet.ai',
-    color: 'text-purple-400',
-    border: '',
-    ctaStyle: 'border border-purple-400/30 hover:border-purple-400/60 text-purple-400 hover:text-white',
-    free: false,
+    cta: 'Contact Sales', href: 'mailto:sales@shieldnet.ai',
+    colorVar: '--primary', ctaType: 'secondary',
   },
   {
     id: 'government',
     name: 'Government',
     icon: Landmark,
-    monthly: null,
-    annual: null,
+    monthly: null, annual: null,
     devices: 'Custom',
     features: [
       'On-premise & air-gapped deployment',
@@ -138,13 +132,8 @@ const plans = [
       '24/7 dedicated government team',
     ],
     sla: { uptime: '99.999%', response: '< 5 minutes', support: '24/7 Dedicated team' },
-    cta: 'Contact Government Sales',
-    href: 'mailto:gov@shieldnet.ai',
-    color: 'text-amber-400',
-    border: 'border-amber-400/20',
-    ctaStyle: 'border border-amber-400/30 hover:border-amber-400/60 text-amber-400 hover:text-white',
-    free: false,
-    govTier: true,
+    cta: 'Contact Government Sales', href: 'mailto:gov@shieldnet.ai',
+    colorVar: '--warning', ctaType: 'warning', govTier: true,
   },
 ];
 
@@ -175,45 +164,57 @@ const faqs = [
   },
 ];
 
+function planCtaStyle(ctaType: CtaType): React.CSSProperties {
+  if (ctaType === 'cyber') return { borderColor: 'color-mix(in srgb, var(--cyber) 30%, transparent)', color: 'var(--cyber)' };
+  if (ctaType === 'warning') return { borderColor: 'color-mix(in srgb, var(--warning) 30%, transparent)', color: 'var(--warning)' };
+  return {};
+}
+
 export default function PricingPage() {
   const [annual, setAnnual] = useState(false);
 
   return (
     <main className="pt-24 pb-20 px-4 min-h-screen">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[#1e293b] text-slate-500 text-xs mb-4">
-            Simple, transparent pricing
-          </div>
-          <h1 className="font-grotesk text-4xl md:text-5xl font-bold text-white mb-4">
-            Plans for{' '}
-            <span className="text-gradient-cyber">Every Scale</span>
+
+        {/* Header — left-aligned, no pill badge */}
+        <div className="mb-12 max-w-2xl">
+          <span className="label mb-4">Pricing</span>
+          <h1 className="font-grotesk text-4xl md:text-5xl font-bold mb-4" style={{ color: 'var(--text)' }}>
+            Simple, transparent pricing.
           </h1>
-          <p className="text-slate-400 max-w-xl mx-auto mb-8">
+          <p className="mb-8" style={{ color: 'var(--text-secondary)' }}>
             14-day free trial on all paid plans. No credit card required to start.
             All payments via Moolre Mobile Money.
           </p>
 
-          {/* Billing toggle */}
-          <div className="inline-flex items-center gap-3 p-1 rounded-full border border-[#1e293b] bg-[#0d1426]">
+          {/* Billing toggle — tab style, not rounded-full pill */}
+          <div className="inline-flex items-center border overflow-hidden"
+            style={{ borderColor: 'var(--border)', borderRadius: 'var(--radius)' }}>
             <button
               onClick={() => setAnnual(false)}
-              className={`px-5 py-1.5 rounded-full text-sm font-medium transition-all ${
-                !annual ? 'bg-[#1e293b] text-white' : 'text-slate-500 hover:text-slate-300'
-              }`}
-            >
+              className="px-5 py-2 text-sm font-medium transition-colors"
+              style={{
+                background: !annual ? 'var(--primary)' : 'transparent',
+                color: !annual ? 'var(--primary-text)' : 'var(--text-muted)',
+              }}>
               Monthly
             </button>
             <button
               onClick={() => setAnnual(true)}
-              className={`px-5 py-1.5 rounded-full text-sm font-medium transition-all flex items-center gap-2 ${
-                annual ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-400/30' : 'text-slate-500 hover:text-slate-300'
-              }`}
-            >
+              className="px-5 py-2 text-sm font-medium transition-colors flex items-center gap-2"
+              style={{
+                background: annual ? 'var(--primary)' : 'transparent',
+                color: annual ? 'var(--primary-text)' : 'var(--text-muted)',
+              }}>
               Annual
-              <span className="text-xs bg-emerald-500/15 text-emerald-400 border border-emerald-500/20 px-1.5 py-0.5 rounded-md">
-                Save 20%
+              <span className="text-[10px] font-bold px-1.5 py-0.5"
+                style={{
+                  borderRadius: 'var(--radius-sm)',
+                  background: 'var(--success-subtle)',
+                  color: 'var(--success-text)',
+                }}>
+                −20%
               </span>
             </button>
           </div>
@@ -224,65 +225,67 @@ export default function PricingPage() {
           {plans.map((plan) => {
             const Icon = plan.icon;
             const price = annual ? plan.annual : plan.monthly;
+            const accentColor = `var(${plan.colorVar})`;
             return (
               <div
                 key={plan.id}
-                className={`card-glow rounded-2xl p-7 flex flex-col relative ${
-                  plan.highlight ? 'border-blue-500/40 shadow-[0_0_50px_rgba(59,130,246,0.15)]' : plan.border
-                }`}
-              >
+                className="card flex flex-col relative p-7"
+                style={plan.highlight ? { outline: '1.5px solid color-mix(in srgb, var(--primary) 30%, transparent)' } : {}}>
                 {plan.highlight && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-blue-600 text-white text-xs font-bold rounded-full">
-                    MOST POPULAR
+                  <div className="absolute -top-3 left-6 px-3 py-0.5 text-[11px] font-bold uppercase tracking-widest"
+                    style={{ borderRadius: 'var(--radius-sm)', background: 'var(--primary)', color: 'var(--primary-text)' }}>
+                    Most Popular
                   </div>
                 )}
 
-                <div className={`flex items-center gap-2 mb-4 ${plan.color}`}>
-                  <Icon className="w-5 h-5" />
-                  <span className="font-grotesk font-semibold text-sm">{plan.name}</span>
+                {/* Plan identity */}
+                <div className="flex items-center gap-2 mb-4">
+                  <Icon className="w-5 h-5" style={{ color: accentColor }} />
+                  <span className="font-grotesk font-semibold text-sm" style={{ color: accentColor }}>{plan.name}</span>
                 </div>
 
                 {/* Price */}
                 <div className="mb-2">
                   {plan.govTier ? (
-                    <div className="font-grotesk text-3xl font-bold text-white">Custom</div>
+                    <div className="font-grotesk text-3xl font-bold tabular-nums" style={{ color: 'var(--text)' }}>Custom</div>
                   ) : plan.free ? (
-                    <div className="font-grotesk text-3xl font-bold text-white">Free</div>
+                    <div className="font-grotesk text-3xl font-bold" style={{ color: 'var(--text)' }}>Free</div>
                   ) : (
                     <div className="flex items-end gap-1">
-                      <span className="font-grotesk text-3xl font-bold text-white">
+                      <span className="font-grotesk text-3xl font-bold tabular-nums" style={{ color: 'var(--text)' }}>
                         ${price?.toFixed(2)}
                       </span>
-                      <span className="text-slate-500 text-sm mb-1">/mo</span>
+                      <span className="text-sm mb-1" style={{ color: 'var(--text-muted)' }}>/mo</span>
                     </div>
                   )}
                 </div>
                 {annual && !plan.govTier && !plan.free && (
-                  <p className="text-emerald-400 text-xs mb-2">Billed annually</p>
+                  <p className="text-xs mb-2" style={{ color: 'var(--success)' }}>Billed annually</p>
                 )}
-                <p className="text-slate-500 text-xs mb-5">{plan.devices}</p>
+                <p className="text-xs mb-5" style={{ color: 'var(--text-muted)' }}>{plan.devices}</p>
 
                 {/* Features */}
                 <ul className="space-y-2.5 flex-1 mb-6">
                   {plan.features.map((f, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-slate-300">
-                      <Check className={`w-4 h-4 flex-shrink-0 mt-0.5 ${plan.color}`} />
+                    <li key={i} className="flex items-start gap-2 text-sm" style={{ color: 'var(--text-secondary)' }}>
+                      <Check className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: accentColor }} />
                       {f}
                     </li>
                   ))}
                 </ul>
 
                 {/* SLA */}
-                <div className="bg-[#060910]/60 rounded-xl p-3 mb-5 space-y-1.5">
-                  <p className="text-slate-600 text-xs font-semibold uppercase tracking-wide">SLA</p>
+                <div className="p-3 mb-5 space-y-1.5"
+                  style={{ background: 'var(--bg-alt)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)' }}>
+                  <p className="text-xs font-semibold uppercase tracking-wide" style={{ color: 'var(--text-muted)' }}>SLA</p>
                   {[
                     ['Uptime', plan.sla.uptime],
                     ['Response', plan.sla.response],
                     ['Support', plan.sla.support],
                   ].map(([k, v]) => (
                     <div key={k} className="flex justify-between text-xs">
-                      <span className="text-slate-500">{k}</span>
-                      <span className="text-slate-300">{v}</span>
+                      <span style={{ color: 'var(--text-muted)' }}>{k}</span>
+                      <span style={{ color: 'var(--text-secondary)' }}>{v}</span>
                     </div>
                   ))}
                 </div>
@@ -290,13 +293,13 @@ export default function PricingPage() {
                 {/* CTA */}
                 <Link
                   href={plan.href}
-                  className={`w-full flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-sm transition-all duration-200 ${plan.ctaStyle}`}
-                >
+                  className={`w-full flex items-center justify-center gap-2 py-3 font-semibold text-sm transition-all ${plan.ctaType === 'primary' ? 'btn-primary' : 'btn-secondary'}`}
+                  style={{ borderRadius: 'var(--radius)', ...planCtaStyle(plan.ctaType) }}>
                   {plan.cta} <ArrowRight className="w-4 h-4" />
                 </Link>
 
                 {!plan.free && !plan.govTier && (
-                  <p className="text-slate-600 text-xs text-center mt-2">14-day free trial included</p>
+                  <p className="text-xs text-center mt-2" style={{ color: 'var(--text-muted)' }}>14-day free trial included</p>
                 )}
               </div>
             );
@@ -304,33 +307,38 @@ export default function PricingPage() {
         </div>
 
         {/* SLA Compensation Notice */}
-        <div className="card-glow rounded-xl p-5 mb-16 flex items-start gap-3 max-w-3xl mx-auto">
-          <div className="w-8 h-8 rounded-lg bg-cyan-400/10 border border-cyan-400/20 flex items-center justify-center flex-shrink-0">
-            <Shield className="w-4 h-4 text-cyan-400" />
+        <div className="card p-5 mb-16 flex items-start gap-3 max-w-3xl">
+          <div className="w-8 h-8 flex items-center justify-center flex-shrink-0"
+            style={{
+              borderRadius: 'var(--radius-sm)',
+              background: 'var(--primary-subtle)',
+              border: '1px solid color-mix(in srgb, var(--primary) 20%, transparent)',
+            }}>
+            <Shield className="w-4 h-4" style={{ color: 'var(--primary)' }} />
           </div>
           <div>
-            <p className="text-white text-sm font-semibold mb-1">SLA Breach Compensation</p>
-            <p className="text-slate-400 text-xs leading-relaxed">
+            <p className="text-sm font-semibold mb-1" style={{ color: 'var(--text)' }}>SLA Breach Compensation</p>
+            <p className="text-xs leading-relaxed" style={{ color: 'var(--text-muted)' }}>
               If ShieldNet AI falls below your guaranteed uptime threshold, you automatically receive a service credit
-              of up to <strong className="text-white">30% of your monthly fee per percentage point</strong> of
+              of up to <strong className="font-bold" style={{ color: 'var(--text-secondary)' }}>30% of your monthly fee per percentage point</strong> of
               downtime below the guarantee. Credits are applied to your next billing cycle — no claims required.
             </p>
           </div>
         </div>
 
         {/* FAQ */}
-        <div className="max-w-3xl mx-auto">
-          <h2 className="font-grotesk text-2xl font-bold text-white mb-8 text-center">
+        <div className="max-w-3xl">
+          <h2 className="font-grotesk text-2xl font-bold mb-8" style={{ color: 'var(--text)' }}>
             Frequently Asked Questions
           </h2>
           <div className="space-y-4">
             {faqs.map((faq, i) => (
-              <div key={i} className="card-glow rounded-xl p-5">
+              <div key={i} className="card p-5">
                 <div className="flex items-start gap-3">
-                  <HelpCircle className="w-4 h-4 text-cyan-400 flex-shrink-0 mt-0.5" />
+                  <HelpCircle className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: 'var(--primary)' }} />
                   <div>
-                    <p className="text-white text-sm font-semibold mb-2">{faq.q}</p>
-                    <p className="text-slate-400 text-sm leading-relaxed">{faq.a}</p>
+                    <p className="text-sm font-semibold mb-2" style={{ color: 'var(--text)' }}>{faq.q}</p>
+                    <p className="text-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>{faq.a}</p>
                   </div>
                 </div>
               </div>

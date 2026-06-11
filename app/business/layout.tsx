@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server';
+﻿import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import BusinessSidebar from '@/components/dashboard/BusinessSidebar';
 
@@ -22,7 +22,7 @@ export default async function BusinessLayout({ children }: { children: React.Rea
     .single();
 
   return (
-    <div className="flex h-screen bg-[#060910]">
+    <div className="flex h-screen bg-background">
       <BusinessSidebar
         userId={user.id}
         userName={profile?.name ?? ''}

@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server';
+﻿import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import { getDaysRemaining } from '@/lib/utils';
 import { AlertTriangle, Eye, Monitor, Clock, ArrowRight } from 'lucide-react';
@@ -33,16 +33,16 @@ export default async function PersonalDashboardPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-grotesk text-2xl font-bold text-white">
+          <h1 className="font-grotesk text-2xl font-bold text-foreground">
             Welcome back, {profile?.name?.split(' ')[0]}
           </h1>
-          <p className="text-slate-400 text-sm mt-0.5">Your personal security overview</p>
+          <p className="text-foreground-muted text-sm mt-0.5">Your personal security overview</p>
         </div>
         {subscription?.status === 'trial' && daysLeft > 0 && (
           <div className="hidden sm:flex items-center gap-2 bg-amber-400/5 border border-amber-400/20 px-4 py-2 rounded-xl">
             <Clock className="w-4 h-4 text-amber-400" />
             <span className="text-amber-400 text-sm">{daysLeft} days left in trial</span>
-            <Link href="/dashboard/billing" className="text-xs bg-amber-400 text-[#060910] font-bold px-2.5 py-1 rounded-lg ml-1">
+            <Link href="/dashboard/billing" className="text-xs bg-amber-400 text-amber-950 font-bold px-2.5 py-1 rounded-lg ml-1">
               Upgrade
             </Link>
           </div>
@@ -52,9 +52,9 @@ export default async function PersonalDashboardPage() {
       <div className="grid lg:grid-cols-3 gap-6">
         {/* Security score */}
         <div className="card-glow rounded-xl p-6 flex flex-col items-center justify-center">
-          <p className="text-slate-400 text-xs mb-3 font-medium uppercase tracking-wide">Security Score</p>
+          <p className="text-foreground-muted text-xs mb-3 font-medium uppercase tracking-wide">Security Score</p>
           <SecurityScoreGauge score={score} size={160} />
-          <p className="text-slate-500 text-xs mt-3 text-center max-w-[160px]">
+          <p className="text-foreground-muted text-xs mt-3 text-center max-w-[160px]">
             {criticalCount > 0
               ? `${criticalCount} critical alert${criticalCount > 1 ? 's' : ''} require attention`
               : 'No active threats detected'}
@@ -97,13 +97,13 @@ export default async function PersonalDashboardPage() {
               href: '/dashboard/billing',
             },
           ].map(({ label, value, sub, icon: Icon, color, href }) => (
-            <Link key={label} href={href} className="card-glow rounded-xl p-4 hover:border-[#334155] transition-colors">
+            <Link key={label} href={href} className="card-glow rounded-xl p-4 hover:border-border-strong transition-colors">
               <div className="flex items-center gap-2 mb-2">
                 <Icon className={`w-4 h-4 ${color}`} />
-                <span className="text-slate-400 text-xs">{label}</span>
+                <span className="text-foreground-muted text-xs">{label}</span>
               </div>
               <p className={`font-grotesk text-2xl font-bold ${color}`}>{value}</p>
-              <p className="text-slate-600 text-xs mt-0.5">{sub}</p>
+              <p className="text-foreground-muted text-xs mt-0.5">{sub}</p>
             </Link>
           ))}
         </div>
@@ -111,12 +111,12 @@ export default async function PersonalDashboardPage() {
 
       {/* Live alert feed */}
       <div className="card-glow rounded-xl overflow-hidden">
-        <div className="px-5 py-3.5 border-b border-[#1e293b] flex items-center justify-between">
+        <div className="px-5 py-3.5 border-b border-border flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-            <h2 className="font-grotesk font-semibold text-white text-sm">Live Alert Feed</h2>
+            <h2 className="font-grotesk font-semibold text-foreground text-sm">Live Alert Feed</h2>
           </div>
-          <Link href="/dashboard/alerts" className="text-xs text-slate-400 hover:text-cyan-400 flex items-center gap-1 transition-colors">
+          <Link href="/dashboard/alerts" className="text-xs text-foreground-muted hover:text-cyan-400 flex items-center gap-1 transition-colors">
             View all <ArrowRight className="w-3 h-3" />
           </Link>
         </div>

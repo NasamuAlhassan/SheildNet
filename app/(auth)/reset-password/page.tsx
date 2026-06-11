@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -47,16 +47,16 @@ export default function ResetPasswordPage() {
         <div className="w-14 h-14 bg-emerald-400/10 rounded-2xl flex items-center justify-center border border-emerald-400/20 mx-auto mb-5">
           <CheckCircle className="w-7 h-7 text-emerald-400" />
         </div>
-        <h1 className="font-grotesk text-2xl font-bold text-white mb-2">Password updated</h1>
-        <p className="text-slate-400 text-sm">Redirecting you to sign in...</p>
+        <h1 className="font-grotesk text-2xl font-bold text-foreground mb-2">Password updated</h1>
+        <p className="text-foreground-muted text-sm">Redirecting you to sign in...</p>
       </div>
     );
   }
 
   return (
     <>
-      <h1 className="font-grotesk text-2xl font-bold text-white mb-1">Set new password</h1>
-      <p className="text-slate-400 text-sm mb-7">Choose a strong password for your account.</p>
+      <h1 className="font-grotesk text-2xl font-bold text-foreground mb-1">Set new password</h1>
+      <p className="text-foreground-muted text-sm mb-7">Choose a strong password for your account.</p>
 
       {error && (
         <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm px-4 py-3 rounded-xl mb-5">
@@ -66,7 +66,7 @@ export default function ResetPasswordPage() {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-slate-400 text-xs mb-1.5">New password</label>
+          <label className="block text-foreground-muted text-xs mb-1.5">New password</label>
           <div className="relative">
             <input
               type={showPw ? 'text' : 'password'}
@@ -80,7 +80,7 @@ export default function ResetPasswordPage() {
             <button
               type="button"
               onClick={() => setShowPw(!showPw)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-foreground-muted hover:text-foreground-secondary"
             >
               {showPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
             </button>
@@ -88,7 +88,7 @@ export default function ResetPasswordPage() {
         </div>
 
         <div>
-          <label className="block text-slate-400 text-xs mb-1.5">Confirm password</label>
+          <label className="block text-foreground-muted text-xs mb-1.5">Confirm password</label>
           <input
             type={showPw ? 'text' : 'password'}
             required
@@ -102,7 +102,7 @@ export default function ResetPasswordPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full flex items-center justify-center gap-2 bg-cyan-500 hover:bg-cyan-400 disabled:opacity-60 disabled:cursor-not-allowed text-[#060910] font-bold py-3 rounded-xl transition-all text-sm"
+          className="w-full flex items-center justify-center gap-2 bg-cyan-500 hover:bg-cyan-400 disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold py-3 rounded-xl transition-all text-sm"
         >
           {loading ? (
             <Loader2 className="w-4 h-4 animate-spin" />
@@ -112,7 +112,7 @@ export default function ResetPasswordPage() {
         </button>
       </form>
 
-      <p className="text-slate-500 text-sm text-center mt-5">
+      <p className="text-foreground-muted text-sm text-center mt-5">
         Remember it?{' '}
         <Link href="/login" className="text-cyan-400 hover:text-cyan-300 transition-colors">
           Sign in

@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server';
+﻿import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import { Bell } from 'lucide-react';
 import LiveAlertFeed from '@/components/dashboard/LiveAlertFeed';
@@ -17,18 +17,18 @@ export default async function PersonalAlertsPage() {
   return (
     <div className="p-6 space-y-6">
       <div>
-        <h1 className="font-grotesk text-2xl font-bold text-white flex items-center gap-2">
+        <h1 className="font-grotesk text-2xl font-bold text-foreground flex items-center gap-2">
           <Bell className="w-6 h-6 text-cyan-400" /> Alert History
         </h1>
-        <p className="text-slate-400 text-sm mt-1">
+        <p className="text-foreground-muted text-sm mt-1">
           All security alerts • updates in real-time
         </p>
       </div>
 
       <div className="card-glow rounded-xl overflow-hidden">
-        <div className="px-5 py-3 border-b border-[#1e293b] flex items-center gap-2">
+        <div className="px-5 py-3 border-b border-border flex items-center gap-2">
           <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-          <span className="text-white text-sm font-semibold font-grotesk">
+          <span className="text-foreground text-sm font-semibold font-grotesk">
             {alerts?.length ?? 0} total alerts
           </span>
         </div>

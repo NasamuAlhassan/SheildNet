@@ -1,4 +1,4 @@
-import { BarChart3, CheckCircle, Clock, Shield } from 'lucide-react';
+﻿import { BarChart3, CheckCircle, Clock, Shield } from 'lucide-react';
 import { formatDateTime } from '@/lib/utils';
 
 const INCIDENTS = [
@@ -11,10 +11,10 @@ export default function SLAPage() {
   return (
     <div className="p-6 space-y-6">
       <div>
-        <h1 className="font-grotesk text-2xl font-bold text-white flex items-center gap-2">
+        <h1 className="font-grotesk text-2xl font-bold text-foreground flex items-center gap-2">
           <BarChart3 className="w-6 h-6 text-amber-400" /> SLA Status
         </h1>
-        <p className="text-slate-400 text-sm mt-1">Government tier service level agreement</p>
+        <p className="text-foreground-muted text-sm mt-1">Government tier service level agreement</p>
       </div>
 
       {/* SLA metrics */}
@@ -27,24 +27,24 @@ export default function SLAPage() {
           <div key={label} className="card-glow rounded-xl p-5">
             <div className="flex items-center gap-2 mb-3">
               <Icon className={`w-4 h-4 ${color}`} />
-              <p className="text-slate-400 text-xs">{label}</p>
+              <p className="text-foreground-muted text-xs">{label}</p>
             </div>
             <p className={`font-grotesk text-2xl font-bold ${color}`}>{value}</p>
-            <p className="text-slate-500 text-xs mt-1">{actual}</p>
+            <p className="text-foreground-muted text-xs mt-1">{actual}</p>
           </div>
         ))}
       </div>
 
       {/* Uptime bar */}
       <div className="card-glow rounded-xl p-5">
-        <div className="flex justify-between text-xs text-slate-400 mb-2">
+        <div className="flex justify-between text-xs text-foreground-muted mb-2">
           <span>Monthly Uptime</span>
           <span className="text-emerald-400 font-semibold">100.000%</span>
         </div>
-        <div className="h-2 bg-[#1e293b] rounded-full overflow-hidden">
+        <div className="h-2 bg-background-alt rounded-full overflow-hidden">
           <div className="h-full bg-emerald-500 rounded-full" style={{ width: '100%' }} />
         </div>
-        <div className="flex justify-between text-xs text-slate-600 mt-1">
+        <div className="flex justify-between text-xs text-foreground-muted mt-1">
           <span>Guaranteed: 99.999%</span>
           <span>SLA breach threshold: &lt; 99.999%</span>
         </div>
@@ -52,18 +52,18 @@ export default function SLAPage() {
 
       {/* Incident log */}
       <div className="card-glow rounded-xl overflow-hidden">
-        <div className="px-5 py-3 border-b border-[#1e293b]">
-          <h2 className="font-grotesk font-semibold text-white text-sm">Last 30 Incidents</h2>
+        <div className="px-5 py-3 border-b border-border">
+          <h2 className="font-grotesk font-semibold text-foreground text-sm">Last 30 Incidents</h2>
         </div>
-        <div className="divide-y divide-[#1e293b]">
+        <div className="divide-y divide-border">
           {INCIDENTS.map((inc) => (
             <div key={inc.id} className="px-5 py-3 flex items-center gap-4">
               <span className={`text-xs px-2 py-0.5 rounded-full border font-mono flex-shrink-0 ${
                 inc.severity === 'critical' ? 'badge-critical' : 'badge-warning'
               }`}>{inc.id}</span>
               <div className="flex-1 min-w-0">
-                <p className="text-slate-200 text-sm truncate">{inc.title}</p>
-                <p className="text-slate-500 text-xs">{formatDateTime(inc.opened)}</p>
+                <p className="text-foreground-secondary text-sm truncate">{inc.title}</p>
+                <p className="text-foreground-muted text-xs">{formatDateTime(inc.opened)}</p>
               </div>
               <div className="flex items-center gap-1 text-emerald-400 text-xs flex-shrink-0">
                 <CheckCircle className="w-3 h-3" /> {inc.responseTime}

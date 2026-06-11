@@ -1,4 +1,4 @@
-import { CheckSquare, CheckCircle, AlertCircle, Download } from 'lucide-react';
+﻿import { CheckSquare, CheckCircle, AlertCircle, Download } from 'lucide-react';
 
 const FRAMEWORKS = [
   {
@@ -49,10 +49,10 @@ export default function CompliancePage() {
   return (
     <div className="p-6 space-y-6">
       <div>
-        <h1 className="font-grotesk text-2xl font-bold text-white flex items-center gap-2">
+        <h1 className="font-grotesk text-2xl font-bold text-foreground flex items-center gap-2">
           <CheckSquare className="w-6 h-6 text-blue-400" /> Compliance Dashboard
         </h1>
-        <p className="text-slate-400 text-sm mt-1">GDPR, ISO 27001, and SOC 2 compliance status</p>
+        <p className="text-foreground-muted text-sm mt-1">GDPR, ISO 27001, and SOC 2 compliance status</p>
       </div>
 
       <div className="grid md:grid-cols-3 gap-5">
@@ -60,8 +60,8 @@ export default function CompliancePage() {
           <div key={fw.name} className="card-glow rounded-xl p-5 flex flex-col">
             <div className="flex items-center justify-between mb-3">
               <div>
-                <h2 className="font-grotesk font-bold text-white">{fw.name}</h2>
-                <p className="text-slate-500 text-xs">{fw.full}</p>
+                <h2 className="font-grotesk font-bold text-foreground">{fw.name}</h2>
+                <p className="text-foreground-muted text-xs">{fw.full}</p>
               </div>
               <span className={`text-xs px-2.5 py-1 rounded-full border font-medium ${
                 fw.status === 'compliant' ? 'badge-info' : 'badge-warning'
@@ -73,12 +73,12 @@ export default function CompliancePage() {
             {/* Score */}
             <div className="mb-4">
               <div className="flex justify-between text-xs mb-1.5">
-                <span className="text-slate-400">Compliance Score</span>
+                <span className="text-foreground-muted">Compliance Score</span>
                 <span className={fw.score >= 90 ? 'text-emerald-400' : fw.score >= 75 ? 'text-amber-400' : 'text-red-400'}>
                   {fw.score}%
                 </span>
               </div>
-              <div className="h-1.5 bg-[#1e293b] rounded-full overflow-hidden">
+              <div className="h-1.5 bg-background-alt rounded-full overflow-hidden">
                 <div
                   className={`h-full rounded-full ${fw.score >= 90 ? 'bg-emerald-500' : fw.score >= 75 ? 'bg-amber-500' : 'bg-red-500'}`}
                   style={{ width: `${fw.score}%` }}
@@ -93,13 +93,13 @@ export default function CompliancePage() {
                   {c.status === 'pass'
                     ? <CheckCircle className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
                     : <AlertCircle className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />}
-                  <span className={c.status === 'pass' ? 'text-slate-300' : 'text-amber-300'}>{c.name}</span>
+                  <span className={c.status === 'pass' ? 'text-foreground-secondary' : 'text-amber-300'}>{c.name}</span>
                 </li>
               ))}
             </ul>
 
-            <div className="flex items-center justify-between pt-3 border-t border-[#1e293b]">
-              <span className="text-slate-500 text-xs">Last audit: {fw.lastAudit}</span>
+            <div className="flex items-center justify-between pt-3 border-t border-border">
+              <span className="text-foreground-muted text-xs">Last audit: {fw.lastAudit}</span>
               <button className="flex items-center gap-1 text-xs text-cyan-400 hover:text-cyan-300 transition-colors">
                 <Download className="w-3 h-3" /> Report
               </button>

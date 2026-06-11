@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { AlertTriangle, Loader2, CheckCircle, X } from 'lucide-react';
@@ -40,12 +40,12 @@ export default function DeclareIncidentButton() {
 
       {open && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-[#0d1426] border border-red-500/30 rounded-2xl w-full max-w-md shadow-2xl">
-            <div className="flex items-center justify-between px-5 py-4 border-b border-[#1e293b]">
+          <div className="bg-background border border-red-500/30 rounded-2xl w-full max-w-md shadow-2xl">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-border">
               <h2 className="font-grotesk font-bold text-red-400 text-sm flex items-center gap-2">
                 <AlertTriangle className="w-4 h-4" /> Declare Security Incident
               </h2>
-              <button onClick={() => { setOpen(false); setResult(null); }} className="text-slate-500 hover:text-white"><X className="w-4 h-4" /></button>
+              <button onClick={() => { setOpen(false); setResult(null); }} className="text-foreground-muted hover:text-foreground"><X className="w-4 h-4" /></button>
             </div>
             <div className="p-5 space-y-4">
               {result ? (
@@ -58,7 +58,7 @@ export default function DeclareIncidentButton() {
                     This will immediately broadcast an emergency SMS to all registered agency staff via Moolre and escalate the current security posture.
                   </div>
                   <div>
-                    <label className="block text-slate-400 text-xs mb-1.5">Custom Message (optional)</label>
+                    <label className="block text-foreground-muted text-xs mb-1.5">Custom Message (optional)</label>
                     <textarea
                       rows={3}
                       maxLength={160}
@@ -71,8 +71,8 @@ export default function DeclareIncidentButton() {
                 </>
               )}
             </div>
-            <div className="px-5 py-4 border-t border-[#1e293b] flex gap-3">
-              <button onClick={() => { setOpen(false); setResult(null); }} className="flex-1 border border-[#1e293b] text-slate-400 py-2.5 rounded-xl text-sm">
+            <div className="px-5 py-4 border-t border-border flex gap-3">
+              <button onClick={() => { setOpen(false); setResult(null); }} className="flex-1 border border-border text-foreground-muted py-2.5 rounded-xl text-sm">
                 {result ? 'Close' : 'Cancel'}
               </button>
               {!result && (

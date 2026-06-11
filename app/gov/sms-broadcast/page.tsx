@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { MessageSquare, Send, Users, CheckCircle, Loader2, AlertTriangle } from 'lucide-react';
@@ -46,10 +46,10 @@ export default function SMSBroadcastPage() {
   return (
     <div className="p-6 space-y-6 max-w-2xl">
       <div>
-        <h1 className="font-grotesk text-2xl font-bold text-white flex items-center gap-2">
+        <h1 className="font-grotesk text-2xl font-bold text-foreground flex items-center gap-2">
           <MessageSquare className="w-6 h-6 text-amber-400" /> Emergency SMS Broadcast
         </h1>
-        <p className="text-slate-400 text-sm mt-1">Send emergency alerts via Moolre to all registered personnel</p>
+        <p className="text-foreground-muted text-sm mt-1">Send emergency alerts via Moolre to all registered personnel</p>
       </div>
 
       {status === 'sent' && result && (
@@ -57,7 +57,7 @@ export default function SMSBroadcastPage() {
           <div className="flex items-center gap-2 text-emerald-400 font-semibold text-sm mb-1">
             <CheckCircle className="w-4 h-4" /> Broadcast sent successfully
           </div>
-          <div className="text-xs text-slate-400 space-y-0.5">
+          <div className="text-xs text-foreground-muted space-y-0.5">
             <p>Delivered: <span className="text-emerald-400 font-semibold">{result.sent}</span></p>
             <p>Failed: <span className="text-red-400">{result.failed}</span></p>
             <p className="font-mono">Moolre Ref: {result.reference}</p>
@@ -73,7 +73,7 @@ export default function SMSBroadcastPage() {
 
       {/* Target selector */}
       <div>
-        <label className="block text-slate-400 text-xs mb-2">Target Recipients</label>
+        <label className="block text-foreground-muted text-xs mb-2">Target Recipients</label>
         <div className="space-y-2">
           {TARGETS.map((t) => (
             <button
@@ -82,7 +82,7 @@ export default function SMSBroadcastPage() {
               className={`w-full flex items-center gap-3 p-3 rounded-xl border text-left transition-all ${
                 target === t.value
                   ? 'border-amber-400/40 bg-amber-400/5 text-amber-400'
-                  : 'border-[#1e293b] text-slate-400 hover:border-[#334155]'
+                  : 'border-border text-foreground-muted hover:border-border-strong'
               }`}
             >
               <Users className="w-4 h-4 flex-shrink-0" />
@@ -98,8 +98,8 @@ export default function SMSBroadcastPage() {
       {/* Message compose */}
       <div>
         <div className="flex justify-between items-center mb-1.5">
-          <label className="text-slate-400 text-xs">Message</label>
-          <span className={`text-xs ${remaining < 20 ? 'text-red-400' : 'text-slate-500'}`}>
+          <label className="text-foreground-muted text-xs">Message</label>
+          <span className={`text-xs ${remaining < 20 ? 'text-red-400' : 'text-foreground-muted'}`}>
             {remaining} chars remaining
           </span>
         </div>
@@ -111,7 +111,7 @@ export default function SMSBroadcastPage() {
           placeholder="[ShieldNet AI] EMERGENCY: ..."
           className="input-dark w-full px-4 py-3 rounded-xl text-sm resize-none"
         />
-        <p className="text-slate-600 text-xs mt-1">
+        <p className="text-foreground-muted text-xs mt-1">
           Messages over 160 characters will be split into multiple SMS segments.
         </p>
       </div>
@@ -128,7 +128,7 @@ export default function SMSBroadcastPage() {
       </button>
 
       {/* Delivery log link */}
-      <p className="text-slate-500 text-xs text-center">
+      <p className="text-foreground-muted text-xs text-center">
         View full SMS delivery log in{' '}
         <a href="/admin/sms-logs" className="text-cyan-400 hover:text-cyan-300 transition-colors">Admin → SMS Logs</a>
       </p>

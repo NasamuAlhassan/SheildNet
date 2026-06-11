@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server';
+﻿import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import PersonalSidebar from '@/components/dashboard/PersonalSidebar';
 
@@ -14,7 +14,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
     .single();
 
   return (
-    <div className="flex h-screen bg-[#060910]">
+    <div className="flex h-screen bg-background">
       <PersonalSidebar
         userId={user.id}
         userName={profile?.name ?? ''}

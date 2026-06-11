@@ -1,13 +1,13 @@
-import { Lock, Plus, FileText } from 'lucide-react';
+﻿import { Lock, Plus, FileText } from 'lucide-react';
 
 export default function VaultPage() {
   return (
     <div className="p-6 space-y-6">
       <div>
-        <h1 className="font-grotesk text-2xl font-bold text-white flex items-center gap-2">
+        <h1 className="font-grotesk text-2xl font-bold text-foreground flex items-center gap-2">
           <Lock className="w-6 h-6 text-emerald-400" /> Encrypted Vault
         </h1>
-        <p className="text-slate-400 text-sm mt-1">Securely store sensitive documents and data</p>
+        <p className="text-foreground-muted text-sm mt-1">Securely store sensitive documents and data</p>
       </div>
 
       {/* Empty state */}
@@ -15,8 +15,8 @@ export default function VaultPage() {
         <div className="w-16 h-16 bg-emerald-400/10 rounded-2xl border border-emerald-400/20 flex items-center justify-center mb-4">
           <Lock className="w-8 h-8 text-emerald-400" />
         </div>
-        <h2 className="font-grotesk text-lg font-bold text-white mb-2">Your vault is empty</h2>
-        <p className="text-slate-400 text-sm max-w-sm mb-6">
+        <h2 className="font-grotesk text-lg font-bold text-foreground mb-2">Your vault is empty</h2>
+        <p className="text-foreground-muted text-sm max-w-sm mb-6">
           Store sensitive documents, notes, and credentials in your AES-256 encrypted personal vault.
         </p>
         <button className="flex items-center gap-2 bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-400 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all">
@@ -32,9 +32,9 @@ export default function VaultPage() {
           { label: 'Credentials', icon: Lock, count: 0 },
         ].map(({ label, icon: Icon, count }) => (
           <div key={label} className="card-glow rounded-xl p-4 text-center">
-            <Icon className="w-5 h-5 text-slate-500 mx-auto mb-2" />
-            <p className="text-slate-400 text-xs">{label}</p>
-            <p className="text-white font-grotesk font-bold text-lg mt-1">{count}</p>
+            <Icon className="w-5 h-5 text-foreground-muted mx-auto mb-2" />
+            <p className="text-foreground-muted text-xs">{label}</p>
+            <p className="text-foreground font-grotesk font-bold text-lg mt-1">{count}</p>
           </div>
         ))}
       </div>

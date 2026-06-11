@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server';
+﻿import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import { AlertTriangle, Info, Zap, Shield, Activity, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
@@ -49,10 +49,10 @@ export default async function BusinessDashboardPage() {
   return (
     <div className="p-6 space-y-6">
       <div>
-        <h1 className="font-grotesk text-2xl font-bold text-white">
+        <h1 className="font-grotesk text-2xl font-bold text-foreground">
           {business?.company_name ?? 'Business'} — SOC Overview
         </h1>
-        <p className="text-slate-400 text-sm mt-0.5">AI Security Operations Center</p>
+        <p className="text-foreground-muted text-sm mt-0.5">AI Security Operations Center</p>
       </div>
 
       {/* Severity cards */}
@@ -65,7 +65,7 @@ export default async function BusinessDashboardPage() {
           <Link key={label} href={href} className={`card-glow rounded-xl p-5 border ${bg} hover:opacity-90 transition-opacity`}>
             <div className="flex items-center gap-2 mb-3">
               <Icon className={`w-4 h-4 ${color}`} />
-              <span className="text-slate-400 text-xs">{label}</span>
+              <span className="text-foreground-muted text-xs">{label}</span>
             </div>
             <div className={`font-grotesk text-4xl font-bold ${color}`}>{count}</div>
           </Link>
@@ -75,12 +75,12 @@ export default async function BusinessDashboardPage() {
       <div className="grid lg:grid-cols-3 gap-6">
         {/* Live alert feed */}
         <div className="lg:col-span-2 card-glow rounded-xl overflow-hidden">
-          <div className="px-5 py-3.5 border-b border-[#1e293b] flex items-center justify-between">
+          <div className="px-5 py-3.5 border-b border-border flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-              <h2 className="font-grotesk font-semibold text-white text-sm">Live Alert Feed</h2>
+              <h2 className="font-grotesk font-semibold text-foreground text-sm">Live Alert Feed</h2>
             </div>
-            <Link href="/business/alerts" className="text-xs text-slate-400 hover:text-blue-400 flex items-center gap-1 transition-colors">
+            <Link href="/business/alerts" className="text-xs text-foreground-muted hover:text-blue-400 flex items-center gap-1 transition-colors">
               View all <ArrowRight className="w-3 h-3" />
             </Link>
           </div>
@@ -103,32 +103,32 @@ export default async function BusinessDashboardPage() {
                 <Icon className="w-4 h-4 text-blue-400" />
               </div>
               <div>
-                <p className="text-slate-400 text-xs">{label}</p>
-                <p className="font-grotesk font-bold text-white text-lg">{value}</p>
+                <p className="text-foreground-muted text-xs">{label}</p>
+                <p className="font-grotesk font-bold text-foreground text-lg">{value}</p>
               </div>
             </div>
           ))}
 
           {/* Alert type breakdown */}
           <div className="card-glow rounded-xl p-4">
-            <p className="text-slate-400 text-xs mb-3 font-medium uppercase tracking-wide">By Type</p>
+            <p className="text-foreground-muted text-xs mb-3 font-medium uppercase tracking-wide">By Type</p>
             <div className="space-y-2">
               {Object.entries(typeBreakdown).slice(0, 5).map(([type, count]) => {
                 const max = Math.max(...Object.values(typeBreakdown));
                 return (
                   <div key={type}>
                     <div className="flex justify-between text-xs mb-1">
-                      <span className="text-slate-400 capitalize">{type.replace('_', ' ')}</span>
-                      <span className="text-slate-300">{count}</span>
+                      <span className="text-foreground-muted capitalize">{type.replace('_', ' ')}</span>
+                      <span className="text-foreground-secondary">{count}</span>
                     </div>
-                    <div className="h-1 bg-[#1e293b] rounded-full overflow-hidden">
+                    <div className="h-1 bg-background-alt rounded-full overflow-hidden">
                       <div className="h-full bg-blue-500 rounded-full" style={{ width: `${(count / max) * 100}%` }} />
                     </div>
                   </div>
                 );
               })}
               {Object.keys(typeBreakdown).length === 0 && (
-                <p className="text-slate-600 text-xs">No alerts yet</p>
+                <p className="text-foreground-muted text-xs">No alerts yet</p>
               )}
             </div>
           </div>

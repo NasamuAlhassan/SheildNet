@@ -20,7 +20,7 @@ export default function Navbar() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => setScrolled(window.scrollY > 16);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -30,9 +30,7 @@ export default function Navbar() {
   return (
     <nav className={cn(
       'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-      scrolled
-        ? 'bg-[var(--card)]/95 backdrop-blur-md border-b border-[var(--border)] shadow-[var(--shadow-sm)]'
-        : 'bg-transparent'
+      scrolled ? 'navbar-glass shadow-sm' : 'bg-transparent'
     )}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
@@ -87,8 +85,8 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {open && (
-        <div className="md:hidden border-b px-4 py-4 space-y-1"
-          style={{ background: 'var(--card)', borderColor: 'var(--border)' }}>
+        <div className="md:hidden border-b px-4 py-4 space-y-1 navbar-glass"
+          style={{ borderColor: 'var(--border)' }}>
           {NAV_LINKS.map(link => (
             <Link key={link.href} href={link.href}
               className="block py-2.5 text-sm font-medium transition-colors hover:text-[var(--text)]"

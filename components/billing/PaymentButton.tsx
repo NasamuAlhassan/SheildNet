@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { Loader2, CheckCircle, AlertCircle, Phone } from 'lucide-react';
@@ -72,15 +72,15 @@ export default function PaymentButton({ plan, billingCycle, label = 'Upgrade Now
           <div className="flex items-center gap-2 text-cyan-400 text-sm font-semibold mb-1">
             <Phone className="w-4 h-4" /> Mobile Money Request Sent
           </div>
-          <p className="text-slate-400 text-xs">
+          <p className="text-foreground-muted text-xs">
             A Mobile Money payment prompt has been sent to your registered phone number.
             Approve it to activate your subscription.
           </p>
           {ref && (
-            <p className="text-slate-500 text-xs mt-1">Ref: <span className="font-mono text-slate-400">{ref}</span></p>
+            <p className="text-foreground-muted text-xs mt-1">Ref: <span className="font-mono text-foreground-muted">{ref}</span></p>
           )}
         </div>
-        <div className="flex items-center gap-2 text-slate-400 text-xs">
+        <div className="flex items-center gap-2 text-foreground-muted text-xs">
           <Loader2 className="w-3 h-3 animate-spin" /> Waiting for payment confirmation...
         </div>
       </div>

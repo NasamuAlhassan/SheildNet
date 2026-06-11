@@ -41,8 +41,9 @@ export default function AnimatedStats() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           {STATS.map((stat, i) => (
-            <div key={i} className="text-center">
-              <div className="font-grotesk text-3xl md:text-4xl font-bold text-gradient mb-1">
+            <div key={i}>
+              <div className="font-grotesk text-3xl md:text-4xl font-bold tabular-nums mb-1"
+                style={{ color: 'var(--text)' }}>
                 <Counter {...stat} />
               </div>
               <div className="text-sm" style={{ color: 'var(--text-muted)' }}>{stat.label}</div>
